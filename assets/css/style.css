@@ -142,11 +142,11 @@ a:focus-visible, button:focus-visible {
 }
 .nav a[aria-current="page"] { color: var(--nae-dark); font-weight: 700; }
 
-/* ---- スマホでのメニュー：ページ内の項目は一段下げて並べます ---- */
-.nav .kodomo { margin: 0 0 10px; padding: 0 0 0 16px; border-left: 2px solid var(--nae-tint); }
-.nav .kodomo li { border-top: 0; }
-.nav .kodomo a { padding: 9px 4px; font-size: 14px; color: var(--sumi-soft); }
-.nav .kodomo a::before { content: "└ "; color: var(--nae); }
+/* ---- スマホでのメニュー ----
+   ページの中の項目まで並べると縦に長くなりすぎて、
+   下のほうに指が届かなくなるため、スマホでは隠します。
+   （パソコンでは、カーソルを合わせると出てきます）        */
+.nav .kodomo { display: none; }
 
 @media (min-width: 900px) {
   .nav-btn, .nav-toggle { display: none; }
