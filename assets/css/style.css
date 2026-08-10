@@ -1,0 +1,455 @@
+@charset "UTF-8";
+
+/* ==========================================================
+   報徳楽校 公式サイト  共通スタイル
+   色・文字・余白の設定はすべてこのファイルにまとまっています
+   ========================================================== */
+
+:root {
+  /* 色 */
+  --nae:        #3f7d4e;  /* 苗の緑：主役の色 */
+  --nae-dark:   #2f6b3e;
+  --nae-tint:   #eef4ec;
+  --minori:     #b8842f;  /* 実りの色：差し色 */
+  --aka:        #c0392b;  /* 左上ロゴの「楽」の色 */
+  --sumi:       #1b2320;  /* 文字 */
+  --sumi-soft:  #5c6960;
+  --ji:         #ffffff;  /* 地 */
+  --ji-tint:    #f4f7f1;  /* 帯の背景 */
+  --keisen:     #dde3d8;
+
+  /* 文字 */
+  --mincho: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "MS PMincho", serif;
+  --gothic: "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", Meiryo, sans-serif;
+
+  /* 幅 */
+  --haba-hiro: 1100px;
+  --haba-hon:  680px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --nae: #7fbb8b; --nae-dark: #9ccfa6; --nae-tint: #1a231b;
+    --minori: #d9ae5f; --aka: #ef8b7c;
+    --sumi: #e8ede4; --sumi-soft: #a1ada2;
+    --ji: #10140f; --ji-tint: #171c16; --keisen: #2b332a;
+  }
+}
+:root[data-theme="dark"] {
+  --nae: #7fbb8b; --nae-dark: #9ccfa6; --nae-tint: #1a231b;
+  --minori: #d9ae5f; --aka: #ef8b7c;
+  --sumi: #e8ede4; --sumi-soft: #a1ada2;
+  --ji: #10140f; --ji-tint: #171c16; --keisen: #2b332a;
+}
+:root[data-theme="light"] {
+  --nae: #3f7d4e; --nae-dark: #2f6b3e; --nae-tint: #eef4ec;
+  --minori: #b8842f;
+  --sumi: #1b2320; --sumi-soft: #5c6960;
+  --ji: #ffffff; --ji-tint: #f4f7f1; --keisen: #dde3d8;
+}
+
+/* ---------- 土台 ---------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ji);
+  color: var(--sumi);
+  font-family: var(--gothic);
+  font-size: 16px;
+  line-height: 1.9;
+  -webkit-text-size-adjust: 100%;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: var(--nae-dark); }
+a:focus-visible, button:focus-visible {
+  outline: 3px solid var(--minori);
+  outline-offset: 2px;
+}
+
+.naka { width: 100%; max-width: var(--haba-hiro); margin-inline: auto; padding-inline: 20px; }
+.hon  { max-width: var(--haba-hon); }
+
+/* ---------- ヘッダー ---------- */
+
+.head {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--ji) 92%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--keisen);
+}
+.head-naka {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; min-height: 62px;
+}
+.logo {
+  font-family: var(--mincho);
+  font-size: 21px; font-weight: 600; letter-spacing: .08em;
+  color: var(--sumi); text-decoration: none; white-space: nowrap;
+}
+.logo span { font-family: var(--gothic); font-size: 11px; letter-spacing: .18em;
+  color: var(--sumi-soft); display: block; line-height: 1.4; font-weight: 500; }
+/* ロゴの「楽」の一文字だけ赤くする */
+.logo .raku { color: var(--aka); font-weight: inherit; }
+
+/* メニュー開閉：JavaScriptを使わず、チェックボックスで開閉します */
+.nav-toggle {
+  position: absolute; opacity: 0; width: 1px; height: 1px; margin: 0;
+  pointer-events: none;
+}
+.nav-btn {
+  display: block; background: none; border: 1px solid var(--keisen);
+  border-radius: 3px; padding: 9px 11px; cursor: pointer; color: var(--sumi);
+}
+.nav-btn span:not(.yomiage) { display: block; width: 20px; height: 2px; background: currentColor; }
+.nav-btn span:not(.yomiage) + span:not(.yomiage) { margin-top: 5px; }
+.nav-toggle:focus-visible + .nav-btn { outline: 3px solid var(--minori); outline-offset: 2px; }
+.nav-toggle:checked ~ .nav { display: block; }
+
+/* 画面には出さず、読み上げソフトにだけ伝える文字 */
+.yomiage {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.nav {
+  display: none;
+  position: absolute; left: 0; right: 0; top: 100%;
+  background: var(--ji); border-bottom: 1px solid var(--keisen);
+  padding: 8px 20px 20px;
+}
+.nav.open { display: block; }
+.nav ul { list-style: none; margin: 0; padding: 0; }
+.nav li + li { border-top: 1px solid var(--keisen); }
+.nav a {
+  display: block; padding: 13px 4px; text-decoration: none;
+  color: var(--sumi); font-size: 15px;
+}
+.nav a[aria-current="page"] { color: var(--nae-dark); font-weight: 700; }
+
+/* ---- スマホでのメニュー：ページ内の項目は一段下げて並べます ---- */
+.nav .kodomo { margin: 0 0 10px; padding: 0 0 0 16px; border-left: 2px solid var(--nae-tint); }
+.nav .kodomo li { border-top: 0; }
+.nav .kodomo a { padding: 9px 4px; font-size: 14px; color: var(--sumi-soft); }
+.nav .kodomo a::before { content: "└ "; color: var(--nae); }
+
+@media (min-width: 900px) {
+  .nav-btn, .nav-toggle { display: none; }
+  .nav {
+    display: block; position: static; padding: 0; border: 0; background: none;
+    overflow: visible;
+  }
+  .nav > ul { display: flex; gap: 4px; }
+  .nav li + li { border-top: 0; }
+  .nav a { padding: 8px 12px; font-size: 14px; border-radius: 3px; }
+  .nav > ul > li > a:hover { background: var(--nae-tint); }
+
+  /* ---- パソコンでのメニュー：カーソルを合わせると下に開きます ---- */
+  .nav .mochi { position: relative; }
+  .nav .kodomo {
+    display: block; position: absolute; top: 100%; left: 0;
+    min-width: 220px; margin: 0; padding: 6px 0;
+    background: var(--ji); border: 1px solid var(--keisen); border-radius: 3px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.1);
+    opacity: 0; visibility: hidden; transform: translateY(-4px);
+    transition: opacity .15s, transform .15s, visibility .15s;
+  }
+  .nav .mochi:hover > .kodomo,
+  .nav .mochi:focus-within > .kodomo {
+    opacity: 1; visibility: visible; transform: translateY(0);
+  }
+  .nav .kodomo a {
+    display: block; padding: 9px 16px; border-radius: 0;
+    color: var(--sumi); font-size: 13.5px; white-space: nowrap;
+  }
+  .nav .kodomo a::before { content: none; }
+  .nav .kodomo a:hover { background: var(--nae-tint); color: var(--nae-dark); }
+
+  /* 親項目に「開きます」の合図をつける */
+  .nav .mochi > a::after {
+    content: ""; display: inline-block; margin-left: 6px;
+    width: 5px; height: 5px; vertical-align: 2px;
+    border-right: 1.5px solid var(--sumi-soft);
+    border-bottom: 1.5px solid var(--sumi-soft);
+    transform: rotate(45deg);
+  }
+}
+
+/* ---------- ヒーロー ---------- */
+
+.hero { position: relative; background: #0d1410; }
+.hero img {
+  width: 100%; height: min(74vh, 620px); object-fit: cover;
+  opacity: .66;
+}
+.hero-moji {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  color: #fff;
+  /* 写真の下側だけを暗くして、文字が読めるようにする（上半分は明るいまま） */
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 42%, rgba(0,0,0,.30) 62%, rgba(0,0,0,.72) 100%);
+}
+.hero-moji .naka { padding-bottom: clamp(32px, 7vw, 76px); }
+.hero h1 {
+  font-family: var(--mincho);
+  font-size: clamp(32px, 8vw, 60px); font-weight: 600;
+  letter-spacing: .1em; margin: 0 0 14px; line-height: 1.3;
+  text-shadow: 0 2px 24px rgba(0,0,0,.5);
+}
+.hero p {
+  font-size: clamp(15px, 3.6vw, 19px); margin: 0; max-width: 36em;
+  text-shadow: 0 2px 16px rgba(0,0,0,.6); line-height: 1.85;
+  /* 行の終わりに1〜2文字だけ取り残されるのを防ぐ */
+  text-wrap: pretty;
+}
+/* 長い紹介文を載せるとき。少し小さく、幅を広く取る */
+.hero p.nagai {
+  font-size: clamp(13.5px, 3.1vw, 16px); max-width: 44em; line-height: 1.95;
+}
+
+/* ---------- 帯 ---------- */
+
+.obi { padding: clamp(52px, 9vw, 92px) 0; }
+.obi.tint { background: var(--ji-tint); }
+
+.midashi {
+  font-family: var(--mincho);
+  font-size: clamp(23px, 5vw, 31px); font-weight: 600;
+  letter-spacing: .06em; margin: 0 0 10px; line-height: 1.5;
+  text-wrap: balance;
+}
+.eyebrow {
+  font-size: 12px; letter-spacing: .2em; color: var(--nae);
+  font-weight: 700; margin: 0 0 12px;
+}
+.lead { font-size: clamp(16px, 3.6vw, 18px); color: var(--sumi-soft); margin: 0 0 32px; max-width: 42em; }
+
+.obi p { max-width: 42em; }
+
+/* ---------- ボタン ---------- */
+
+.btn-ret { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+.btn {
+  display: inline-block; padding: 14px 28px; border-radius: 3px;
+  text-decoration: none; font-size: 15px; font-weight: 700;
+  border: 1.5px solid var(--nae); transition: background .18s, color .18s;
+}
+.btn.omo { background: var(--nae); color: #fff; }
+.btn.omo:hover { background: var(--nae-dark); border-color: var(--nae-dark); }
+.btn.usu { color: var(--nae-dark); background: transparent; }
+.btn.usu:hover { background: var(--nae-tint); }
+
+/* ---------- カード（一年の流れ・記録） ---------- */
+
+.card-ret {
+  display: grid; gap: 22px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) { .card-ret { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .card-ret.san { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  background: var(--ji); border: 1px solid var(--keisen); border-radius: 4px;
+  overflow: hidden; display: flex; flex-direction: column;
+}
+.card img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+.card-naka { padding: 20px 22px 24px; }
+.card .tsuki {
+  font-family: var(--mincho); font-size: 13px; letter-spacing: .1em;
+  color: var(--minori); font-weight: 700; margin: 0 0 4px;
+}
+.card h3 { font-size: 18px; margin: 0 0 8px; font-weight: 700; }
+.card p { font-size: 14.5px; color: var(--sumi-soft); margin: 0; line-height: 1.85; }
+/* カード内の場所表示 */
+.card .basho-ka {
+  margin-top: 12px; padding-top: 11px; border-top: 1px dashed var(--keisen);
+  font-size: 13px; color: var(--sumi-soft);
+}
+.card .basho-ka::before {
+  content: "場所"; display: inline-block; margin-right: 8px;
+  font-size: 10.5px; letter-spacing: .1em; color: var(--nae);
+  border: 1px solid var(--keisen); border-radius: 2px; padding: 1px 6px;
+  vertical-align: 1px;
+}
+
+/* ---------- お知らせ ---------- */
+
+.oshirase { list-style: none; margin: 0; padding: 0; }
+.oshirase li { padding: 20px 0; border-bottom: 1px solid var(--keisen); }
+.oshirase li:first-child { border-top: 1px solid var(--keisen); }
+.oshirase .hi {
+  font-size: 12.5px; letter-spacing: .08em; color: var(--nae);
+  font-weight: 700; font-variant-numeric: tabular-nums; margin: 0 0 4px;
+}
+.oshirase h3 { font-size: 17px; margin: 0 0 6px; font-weight: 700; }
+.oshirase p { font-size: 14.5px; color: var(--sumi-soft); margin: 0; }
+
+/* ---------- 次回の活動 ---------- */
+
+.jikai {
+  border: 2px solid var(--nae); border-radius: 4px;
+  padding: clamp(24px, 5vw, 36px); background: var(--nae-tint);
+}
+.jikai .fuda {
+  display: inline-block; background: var(--nae); color: #fff;
+  font-size: 12px; letter-spacing: .14em; font-weight: 700;
+  padding: 4px 12px; border-radius: 2px; margin-bottom: 14px;
+}
+.jikai h3 { font-family: var(--mincho); font-size: clamp(20px, 4.6vw, 26px); margin: 0 0 12px; font-weight: 600; }
+.jikai p { margin: 0 0 10px; }
+.jikai p:last-child { margin-bottom: 0; }
+
+/* ---------- 表 ---------- */
+
+.hyo-waku { overflow-x: auto; margin: 0 0 26px; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 15px; }
+caption { text-align: left; font-size: 13px; color: var(--sumi-soft); padding-bottom: 10px; }
+th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--keisen); vertical-align: top; }
+thead th {
+  background: var(--ji-tint); font-size: 13px; letter-spacing: .06em;
+  color: var(--sumi-soft); font-weight: 700; border-bottom: 2px solid var(--keisen);
+}
+td.tsuki-retsu { white-space: nowrap; font-weight: 700; color: var(--nae-dark); font-variant-numeric: tabular-nums; }
+tbody tr:hover { background: var(--nae-tint); }
+
+/* ---------- 折りたたみ ---------- */
+
+.tatami { border-bottom: 1px solid var(--keisen); }
+.tatami:first-of-type { border-top: 1px solid var(--keisen); }
+.tatami summary {
+  cursor: pointer; padding: 18px 40px 18px 4px; position: relative;
+  font-weight: 700; font-size: 16px; list-style: none;
+}
+.tatami summary::-webkit-details-marker { display: none; }
+.tatami summary::after {
+  content: ""; position: absolute; right: 10px; top: 50%;
+  width: 9px; height: 9px; margin-top: -6px;
+  border-right: 2px solid var(--nae); border-bottom: 2px solid var(--nae);
+  transform: rotate(45deg); transition: transform .2s;
+}
+.tatami[open] summary::after { transform: rotate(-135deg); margin-top: -2px; }
+.tatami .naiyo { padding: 0 4px 22px; color: var(--sumi-soft); font-size: 15px; }
+.tatami .naiyo p { margin: 0; }
+
+/* ---------- 場所 ---------- */
+
+.basho + .basho { margin-top: 56px; padding-top: 56px; border-top: 1px solid var(--keisen); }
+.basho h3 { font-family: var(--mincho); font-size: 22px; margin: 0 0 14px; font-weight: 600; }
+/* 元が小さい写真。引き伸ばすとぼやけるので原寸のまま表示します */
+.basho img.genkun { width: auto; max-width: 100%; }
+.basho .jusho {
+  font-size: 14px; color: var(--sumi-soft); margin: 16px 0 0;
+  font-variant-numeric: tabular-nums;
+}
+.chizu {
+  width: 100%; aspect-ratio: 16 / 10; border: 1px solid var(--keisen);
+  border-radius: 4px; margin-top: 18px;
+}
+@media (min-width: 760px) { .chizu { aspect-ratio: 16 / 7; } }
+
+/* ---------- スタッフ ---------- */
+
+.staff + .staff { margin-top: 40px; padding-top: 40px; border-top: 1px solid var(--keisen); }
+/* 顔写真つきの並び。写真は旧サイトの原寸のまま置きます */
+.staff-ue { display: flex; gap: 18px; align-items: flex-start; margin-bottom: 14px; }
+.staff-ue img {
+  flex: none; width: 104px; border-radius: 3px;
+  border: 1px solid var(--keisen); background: var(--ji-tint);
+}
+.staff-ue .nama { min-width: 0; }
+.staff-ue h3, .staff-ue .yakushoku, .staff-ue .honmyo { margin-bottom: 0; }
+.staff .yakushoku {
+  font-size: 12px; letter-spacing: .14em; color: var(--minori);
+  font-weight: 700; margin: 0 0 6px;
+}
+.staff h3 { font-family: var(--mincho); font-size: 24px; margin: 0 0 4px; font-weight: 600; }
+.staff .honmyo { font-size: 14px; color: var(--sumi-soft); margin: 0 0 14px; }
+.staff .keireki { font-size: 14px; color: var(--sumi-soft); margin: 0 0 12px; line-height: 1.8; }
+
+/* ---------- 記録 ---------- */
+
+.kiroku { padding: 34px 0; border-bottom: 1px solid var(--keisen); }
+.kiroku:first-of-type { padding-top: 0; }
+.kiroku .hi {
+  font-size: 13px; letter-spacing: .08em; color: var(--nae); font-weight: 700;
+  font-variant-numeric: tabular-nums; margin: 0 0 6px;
+}
+.kiroku h3 { font-family: var(--mincho); font-size: 21px; margin: 0 0 6px; font-weight: 600; }
+.kiroku .basho-mei { font-size: 13.5px; color: var(--sumi-soft); margin: 0 0 14px; }
+.shashin-ret {
+  display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); margin-top: 18px;
+}
+@media (min-width: 700px) { .shashin-ret { grid-template-columns: repeat(3, 1fr); } }
+.shashin-ret img { aspect-ratio: 3 / 2; object-fit: cover; border-radius: 3px; }
+
+/* ---------- 期の一覧 ---------- */
+
+.ki-ret { display: grid; gap: 12px; grid-template-columns: repeat(2, 1fr); }
+@media (min-width: 640px) { .ki-ret { grid-template-columns: repeat(4, 1fr); } }
+.ki {
+  display: block; text-decoration: none; text-align: center;
+  border: 1px solid var(--keisen); border-radius: 4px; padding: 18px 8px;
+  color: var(--sumi); transition: border-color .18s, background .18s;
+}
+a.ki:hover { border-color: var(--nae); background: var(--nae-tint); }
+.ki b { display: block; font-family: var(--mincho); font-size: 20px; font-weight: 600; }
+.ki span { font-size: 12px; color: var(--sumi-soft); font-variant-numeric: tabular-nums; }
+
+/* ---------- 注記 ---------- */
+
+.chuki {
+  background: var(--ji-tint); border-left: 3px solid var(--minori);
+  padding: 20px 24px; margin: 0 0 26px; font-size: 15px;
+}
+.chuki p { margin: 0; }
+.chuki p + p { margin-top: 10px; }
+
+/* ---------- 問い合わせ ---------- */
+
+.toi {
+  background: var(--nae); color: #fff; border-radius: 4px;
+  padding: clamp(28px, 6vw, 44px);
+}
+.toi h2 { font-family: var(--mincho); font-size: clamp(21px, 4.6vw, 27px); margin: 0 0 12px; font-weight: 600; }
+.toi p { margin: 0 0 8px; }
+.toi a { color: #fff; font-weight: 700; word-break: break-all; }
+
+/* ---------- フッター ---------- */
+
+.foot {
+  border-top: 1px solid var(--keisen); margin-top: 0;
+  padding: 46px 0 60px; font-size: 14px; color: var(--sumi-soft);
+  background: var(--ji-tint);
+}
+.foot-ret { display: grid; gap: 26px; }
+@media (min-width: 760px) { .foot-ret { grid-template-columns: 1.4fr 1fr; } }
+.foot h4 { font-size: 13px; letter-spacing: .1em; margin: 0 0 10px; color: var(--sumi); }
+.foot ul { list-style: none; margin: 0; padding: 0; }
+.foot li { margin-bottom: 7px; }
+.foot a { color: var(--sumi-soft); text-decoration: none; }
+.foot a:hover { color: var(--nae-dark); text-decoration: underline; }
+.foot .kome { margin-top: 30px; font-size: 12.5px; }
+
+/* ---------- ページ見出し（下層） ---------- */
+
+.page-head {
+  padding: clamp(40px, 8vw, 72px) 0 clamp(28px, 5vw, 44px);
+  border-bottom: 1px solid var(--keisen);
+}
+.page-head h1 {
+  font-family: var(--mincho); font-size: clamp(27px, 6.4vw, 40px);
+  font-weight: 600; letter-spacing: .06em; margin: 0 0 12px; line-height: 1.4;
+}
+.page-head p { font-size: clamp(15px, 3.6vw, 17px); color: var(--sumi-soft); margin: 0; max-width: 40em; }
+
+.pan { font-size: 12.5px; color: var(--sumi-soft); padding-top: 18px; }
+.pan a { color: var(--sumi-soft); }
