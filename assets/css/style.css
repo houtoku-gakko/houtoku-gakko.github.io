@@ -143,13 +143,42 @@ a:focus-visible, button:focus-visible {
 .nav a[aria-current="page"] { color: var(--nae-dark); font-weight: 700; }
 
 /* ---- スマホでのメニュー ----
-   ページの中の項目まで並べると縦に長くなりすぎて、
-   下のほうに指が届かなくなるため、スマホでは隠します。
-   （パソコンでは、カーソルを合わせると出てきます）        */
-.nav .kodomo { display: none; }
+   ページ名の右の「＋」を押すと、そのページの中の項目が開きます。
+   ページ名そのものを押すと、そのページへ移動します。
+   （パソコンでは「＋」は消え、カーソルを合わせると開きます）   */
+
+.nav .mochi { display: flex; flex-wrap: wrap; align-items: center; }
+.nav .mochi > a { flex: 1 1 auto; min-width: 0; }
+
+.sub-toggle { position: absolute; opacity: 0; width: 1px; height: 1px; pointer-events: none; }
+
+.sub-btn {
+  flex: none; cursor: pointer; position: relative;
+  width: 46px; height: 46px; border-radius: 3px;
+  border: 1px solid var(--keisen);
+}
+.sub-btn::before, .sub-btn::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  background: var(--nae-dark); transition: transform .2s, opacity .2s;
+}
+.sub-btn::before { width: 15px; height: 2px; margin: -1px 0 0 -7.5px; }
+.sub-btn::after  { width: 2px; height: 15px; margin: -7.5px 0 0 -1px; }
+.sub-toggle:checked ~ .sub-btn::after { transform: rotate(90deg); opacity: 0; }
+.sub-toggle:focus-visible ~ .sub-btn { outline: 3px solid var(--minori); outline-offset: 2px; }
+
+.nav .kodomo {
+  display: none; flex-basis: 100%;
+  margin: 0 0 12px; padding: 4px 0 4px 18px;
+  border-left: 2px solid var(--nae-tint);
+}
+.nav .kodomo li { border-top: 0; }
+.nav .kodomo a { padding: 11px 4px; font-size: 14px; color: var(--sumi-soft); }
+.nav .kodomo a::before { content: "└ "; color: var(--nae); }
+.sub-toggle:checked ~ .kodomo { display: block; }
 
 @media (min-width: 900px) {
-  .nav-btn, .nav-toggle { display: none; }
+  .nav-btn, .nav-toggle, .sub-btn, .sub-toggle { display: none; }
+  .nav .mochi { display: block; }
   .nav {
     display: block; position: static; padding: 0; border: 0; background: none;
     overflow: visible;
