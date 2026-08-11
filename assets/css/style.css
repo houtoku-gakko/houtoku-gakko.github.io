@@ -477,6 +477,25 @@ a.ki:hover { border-color: var(--nae); background: var(--nae-tint); }
 .foot a:hover { color: var(--nae-dark); text-decoration: underline; }
 .foot .kome { margin-top: 30px; font-size: 12.5px; }
 
+/* 訪問者数（ホームの一番下・右寄せ） */
+.foot-shita {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 24px;
+}
+.foot .kazu {
+  margin: 30px 0 0; margin-left: auto;   /* 右端へ寄せます */
+  font-size: 12.5px; color: var(--sumi-soft);
+  letter-spacing: .04em;
+}
+@media (max-width: 520px) {
+  /* 狭い画面では折り返して、左に揃えます */
+  .foot .kazu { margin-left: 0; margin-top: 8px; }
+}
+.foot .kazu b {
+  font-weight: 700; color: var(--nae-dark);
+  font-variant-numeric: tabular-nums; font-size: 14px;
+}
+.foot .kazu[hidden] { display: none; }
+
 /* ---------- ページ見出し（下層） ---------- */
 
 .page-head {

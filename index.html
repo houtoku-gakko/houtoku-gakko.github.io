@@ -289,11 +289,52 @@
       </ul>
     </div>
   </div>
-  <div class="naka">
+  <div class="naka foot-shita">
     <p class="kome">&copy; 報徳楽校（小田原報徳実践会）</p>
+
+    <!-- ============================================================
+         訪問者数の表示（ホームだけ）
+
+         数字は GoatCounter から読み込んでいます。
+         管理画面： https://houtoku-gakko.goatcounter.com
+
+         ◆ 表示をやめたいときは、この <p class="kazu"> の行から
+           </script> までをまとめて削除してください。
+         ◆ 数字が読み込めなかったときは、何も表示されません。
+           （ページの他の部分には影響しません）
+         ============================================================ -->
+    <p class="kazu" id="homonsu" hidden>これまでの訪問者数　<b></b></p>
+    <script>
+      (function () {
+        var el = document.getElementById('homonsu');
+        if (!el || !window.fetch) { return; }
+        fetch('https://houtoku-gakko.goatcounter.com/counter/TOTAL.json')
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (d) {
+            if (!d || !d.count_unique) { return; }
+            var n = parseInt(String(d.count_unique).replace(/[^0-9]/g, ''), 10);
+            if (!isFinite(n)) { return; }
+            el.querySelector('b').textContent = n.toLocaleString('ja-JP');
+            el.hidden = false;
+          })
+          .catch(function () { /* 読み込めなければ、何も表示しません */ });
+      })();
+    </script>
   </div>
 </footer>
 
 
+
+<!-- ============================================================
+     訪問者数の計測（GoatCounter）
+
+     管理画面： https://houtoku-gakko.goatcounter.com
+     画面には何も表示されません。1×1の小さな画像を読み込むことで
+     「このページが開かれた」ことだけを記録しています。
+     JavaScriptは使っていません。
+
+     ◆ やめたいときは、下の <img ...> の1行を消してください。
+     ============================================================ -->
+<img src="https://houtoku-gakko.goatcounter.com/count?p=/" alt="" width="1" height="1" style="position:absolute;left:-9999px" loading="eager">
 </body>
 </html>
