@@ -224,7 +224,9 @@ a:focus-visible, button:focus-visible {
 .hero { position: relative; background: #0d1410; }
 .hero img {
   width: 100%; height: min(74vh, 620px); object-fit: cover;
-  opacity: .66;
+  /* 山並みと空を残しつつ、稲を刈る子どもたちが入る位置で切り取ります */
+  object-position: center 42%;
+  opacity: .82;
 }
 .hero-moji {
   position: absolute; inset: 0;
@@ -420,10 +422,11 @@ tbody tr:hover { background: var(--nae-tint); }
 }
 .kiroku h3 { font-family: var(--mincho); font-size: 21px; margin: 0 0 6px; font-weight: 600; }
 .kiroku .basho-mei { font-size: 13.5px; color: var(--sumi-soft); margin: 0 0 14px; }
+/* 写真の並び。枚数に応じて自動で幅が決まります（1枚なら大きく） */
 .shashin-ret {
-  display: grid; gap: 10px; grid-template-columns: repeat(2, 1fr); margin-top: 18px;
+  display: grid; gap: 10px; margin-top: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
 }
-@media (min-width: 700px) { .shashin-ret { grid-template-columns: repeat(3, 1fr); } }
 .shashin-ret img { aspect-ratio: 3 / 2; object-fit: cover; border-radius: 3px; }
 
 /* ---------- 期の一覧 ---------- */
