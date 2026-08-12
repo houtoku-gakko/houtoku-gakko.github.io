@@ -399,11 +399,12 @@ tbody tr:hover { background: var(--nae-tint); }
   font-size: 12px; letter-spacing: .18em; color: var(--sumi-soft);
   font-weight: 500; margin-top: 8px;
 }
+/* 詩は、行の頭を揃えたかたまりを、枠の中央に置きます */
 .rinen .shi {
   font-family: var(--mincho);
   font-size: clamp(15px, 3.6vw, 18px); line-height: 2.3;
   letter-spacing: .06em; margin: 0; max-width: none;
-  text-align: center;
+  display: inline-block; text-align: left;
 }
 
 /* ---------- 場所 ---------- */

@@ -1,13 +1,15 @@
 # ============================================================
 # 検索エンジンへの指示
 #
-# いまは「サイト全体を検索結果に出さない」設定になっています。
-# チェック中で、まだ他の人に見られたくないためです。
+# サイト全体を検索結果に表示してよい設定です。
 #
-# ◆ 公開してよくなったら
-#   下の Disallow: / の行を  Disallow:  （スラッシュを消す）に変えます。
-#   あわせて、各HTMLの <meta name="robots" content="noindex, nofollow"> も消します。
+# ◆ 一時的に検索結果から隠したくなったときは
+#   下の Disallow: の行を  Disallow: /  （スラッシュを足す）に変え、
+#   あわせて各HTMLに <meta name="robots" content="noindex, nofollow"> を入れます。
+#   （Claude に「検索避けをして」と伝えれば、こちらで作業します）
 # ============================================================
 
 User-agent: *
-Disallow: /
+Disallow:
+
+Sitemap: https://houtoku-gakko.github.io/sitemap.xml
