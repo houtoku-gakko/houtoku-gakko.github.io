@@ -399,6 +399,12 @@ tbody tr:hover { background: var(--nae-tint); }
   font-size: 12px; letter-spacing: .18em; color: var(--sumi-soft);
   font-weight: 500; margin-top: 8px;
 }
+/* 作者名。詩より小さく、控えめに */
+.rinen .sakusha {
+  margin: 22px 0 0; font-size: 13px; color: var(--sumi-soft);
+  letter-spacing: .04em; max-width: none;
+}
+
 /* 詩は、行の頭を揃えたかたまりを、枠の中央に置きます */
 .rinen .shi {
   font-family: var(--mincho);
