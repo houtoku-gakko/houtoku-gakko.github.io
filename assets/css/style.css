@@ -332,6 +332,10 @@ a:focus-visible, button:focus-visible {
 
 /* ---------- 次回の活動 ---------- */
 
+/* 次回の活動の「元データ」。画面には出しません */
+.yotei-moto { display: none; }
+.jikai[hidden], .yotei-moto[hidden] { display: none; }
+
 .jikai {
   border: 2px solid var(--nae); border-radius: 4px;
   padding: clamp(24px, 5vw, 36px); background: var(--nae-tint);

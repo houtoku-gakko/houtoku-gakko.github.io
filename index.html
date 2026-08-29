@@ -211,18 +211,110 @@
       </div>
     </div>
   </section>
-
   <section class="obi" id="jikai">
     <div class="naka hon">
       <p class="eyebrow">NEXT</p>
       <h2 class="midashi">次回の活動</h2>
 
-      <div class="jikai">
-        <span class="fuda">活動7</span>
-        <h3>9月20日（日）・21日（月・祝）稲刈り</h3>
-        <p>楽校の田んぼで、2日間かけて稲刈りをします。9:00〜15:00の予定です。</p>
-        <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+      <!-- ============================================================
+           【次回の活動について】
+
+           下の一覧に、その年の予定をすべて書いておきます。
+           日付が過ぎた回は自動で飛ばし、次の回が表示されます。
+           あなたが毎回書き換える必要はありません。
+
+           ◆ 年に一度、1月ごろに翌年度の予定へ書き換えてください。
+             書き換えるのは、下の一覧の中身と data-owari の日付です。
+
+             data-owari … その活動の最終日。この日を過ぎると次へ進みます。
+                           必ず 2026-09-21 の形（年-月-日）で書いてください。
+             data-fuda  … 「活動7」などの見出しの小さな札
+
+           ◆ 予定を増やすときは、一覧の1件分をまるごとコピーして貼り、
+             日付の早い順に並べてください。
+           ============================================================ -->
+
+      <ul class="yotei-moto" id="yoteiMoto" hidden>
+
+        <li data-owari="2026-09-21" data-fuda="活動7">
+          <b>9月20日（日）・21日（月・祝）稲刈り</b>
+          <p>楽校の田んぼで、2日間かけて稲刈りをします。9:00〜15:00の予定です。</p>
+          <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+        </li>
+
+        <li data-owari="2026-10-11" data-fuda="特別活動2">
+          <b>10月11日（日）芋ほり</b>
+          <p>報徳楽校の畑で、サツマイモを掘り出します。午前中のみ。掘った芋は10月のこども報徳市で販売します。</p>
+          <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+        </li>
+
+        <li data-owari="2026-10-18" data-fuda="活動8">
+          <b>10月18日（日）こども報徳市</b>
+          <p>小田原市尊徳記念館の尊徳祭で、育てた米と野菜を販売します。9:00〜14:00の予定です。</p>
+          <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+        </li>
+
+        <li data-owari="2026-11-22" data-fuda="活動9">
+          <b>11月22日（日）秋の田んぼでバーベキュー</b>
+          <p>刈り取った田んぼを広々と使います。9:00〜15:00の予定です。</p>
+          <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+        </li>
+
+        <li data-owari="2026-12-06" data-fuda="活動10">
+          <b>12月6日（日）修了式、みかん狩り、もちつき</b>
+          <p>梅の里センターで、一年をしめくくります。みかん狩りともちつき、修了証書の授与を行います。</p>
+          <p>第16期生の皆さまには、詳細をメールでご連絡します。</p>
+        </li>
+
+      </ul>
+
+      <!-- ここに、上の一覧から選ばれた1件が表示されます -->
+      <div class="jikai" id="jikaiBox" hidden>
+        <span class="fuda" id="jikaiFuda"></span>
+        <h3 id="jikaiTitle"></h3>
+        <div id="jikaiBody"></div>
       </div>
+
+      <script>
+        (function () {
+          var moto = document.getElementById('yoteiMoto');
+          var box  = document.getElementById('jikaiBox');
+          if (!moto || !box) { return; }
+
+          // 今日の日付（時刻は切り捨て）
+          var kyo = new Date();
+          kyo.setHours(0, 0, 0, 0);
+
+          var list = moto.querySelectorAll('li');
+          for (var i = 0; i < list.length; i++) {
+            var owari = list[i].getAttribute('data-owari');
+            if (!owari) { continue; }
+            var bunkatsu = owari.split('-');
+            var hi = new Date(+bunkatsu[0], +bunkatsu[1] - 1, +bunkatsu[2]);
+            hi.setHours(0, 0, 0, 0);
+            if (hi < kyo) { continue; }   // 過ぎた回は飛ばす
+
+            var midashi = list[i].querySelector('b');
+            document.getElementById('jikaiFuda').textContent = list[i].getAttribute('data-fuda') || '';
+            document.getElementById('jikaiTitle').textContent = midashi ? midashi.textContent : '';
+            var honbun = document.getElementById('jikaiBody');
+            var p = list[i].querySelectorAll('p');
+            for (var j = 0; j < p.length; j++) {
+              honbun.appendChild(p[j].cloneNode(true));
+            }
+            box.hidden = false;
+            return;
+          }
+
+          // 残りがなければ、しめくくりの言葉を出す
+          document.getElementById('jikaiFuda').textContent = 'お知らせ';
+          document.getElementById('jikaiTitle').textContent = '今年度の活動はすべて終了しました';
+          var p2 = document.createElement('p');
+          p2.textContent = '一年間ありがとうございました。次年度の予定が決まりましたら、この欄でご案内します。';
+          document.getElementById('jikaiBody').appendChild(p2);
+          box.hidden = false;
+        })();
+      </script>
     </div>
   </section>
 
