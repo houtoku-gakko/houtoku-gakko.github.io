@@ -12,4 +12,9 @@
 User-agent: *
 Disallow:
 
+# 広報部（Instagram担当）の運用メモは検索結果に出さない設定です。
+# ※ このリポジトリは公開されているため、URLを知っていれば誰でも読めます。
+#    見られて困る情報（氏名・連絡先・パスワードなど）は書かないでください。
+Disallow: /instagram/
+
 Sitemap: https://houtoku-gakko.github.io/sitemap.xml
