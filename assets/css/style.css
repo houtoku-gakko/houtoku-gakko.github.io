@@ -349,6 +349,27 @@ a:focus-visible, button:focus-visible {
 .jikai p { margin: 0 0 10px; }
 .jikai p:last-child { margin-bottom: 0; }
 
+/* ---------- インスタグラム（ホーム） ---------- */
+
+.insta {
+  display: flex; align-items: center; gap: 16px;
+  max-width: 460px; margin-top: 28px; padding: 18px 22px;
+  background: var(--ji); color: var(--sumi); text-decoration: none;
+  border: 1px solid var(--keisen); border-radius: 4px;
+  transition: border-color .18s, background .18s;
+}
+.insta:hover { border-color: var(--nae); background: var(--nae-tint); }
+.insta svg { flex: none; width: 42px; height: 42px; color: var(--nae-dark); }
+.insta-moji { min-width: 0; line-height: 1.5; }
+.insta-mei { display: block; font-size: 12px; letter-spacing: .08em; color: var(--sumi-soft); }
+.insta-id  { display: block; font-size: 19px; font-weight: 700; color: var(--nae-dark); white-space: nowrap; }
+.insta-yaji { margin-left: auto; flex: none; font-size: 14px; font-weight: 700; color: var(--nae-dark); }
+@media (max-width: 360px) {
+  /* 小さいスマホでは「見る →」を省いて、アカウント名が1行に収まるようにします */
+  .insta { gap: 12px; padding: 16px; }
+  .insta-yaji { display: none; }
+}
+
 /* ---------- 表 ---------- */
 
 .hyo-waku { overflow-x: auto; margin: 0 0 26px; -webkit-overflow-scrolling: touch; }
